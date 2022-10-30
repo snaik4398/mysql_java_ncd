@@ -38,7 +38,20 @@
 
 <body>
 <form action="add" method="post">
+<h1>
+<%
+//this pre tag helps to create new line refer : https://stackoverflow.com/questions/4856976/out-println-does-not-work  
+out.println("<pre>");
+out.println("patient id       : "+mysqljava.Registration.pid );
+out.println("patient name     : "+mysqljava.Registration.pnm);
+out.println("patient gender   : "+mysqljava.Registration.gen);
+out.println("patient aadhar no: "+mysqljava.Registration.aadhaar);
+out.println("patient email    : "+mysqljava.Registration.emal);
+out.println("patient ph       : "+mysqljava.Registration.ph);
 
+out.println("</pre>");
+%>
+</h1>
 <!--  
   <form action="/submit" method='post'>
 -->

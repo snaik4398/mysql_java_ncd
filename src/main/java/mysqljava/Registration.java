@@ -16,7 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/signup")
 public class Registration extends HttpServlet {
+	public static String pnm;
+	public static String pid;
+	public static String emal;
+	public static String gen;
+	public static String pin;
+	public static String dob;
+	public static String ph;
 	public static String aadhaar;
+
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,23 +49,31 @@ public class Registration extends HttpServlet {
 	      out.println("<body>");
 		  String fnm=req.getParameter("fname");
 		  String lnm=req.getParameter("lname");
-		  String emal=req.getParameter("email");
-		  String gen=req.getParameter("gender");
-		  String pin=req.getParameter("gender");
-		  String dob=req.getParameter("birthday");
-		  String ph=req.getParameter("phno");
+		   emal=req.getParameter("email");
+		  gen=req.getParameter("gender");
+		   pin=req.getParameter("gender");
+		   dob=req.getParameter("birthday");
+		   ph=req.getParameter("phno");
 		  aadhaar=req.getParameter("adhar");
 		  String res1=" ";
 		  String sc=" ";
 				  
 	
 		  
-		  
-		  
+			    
+		    long  min = 99999999999999L;
+		    long  max = 10000000000000L;
+//	the value of (max-min+1)+min is 10^^14+1
+		    long random_int = (long)(Math.random() * (max - min + 1) + min);
+		     pid = Long.toString(random_int);
+		
+		    out.println("partient: "+pid);
+			  
+		    out.println("<br><br>");
 
 //		  displaying the data in the data base
 		  out.println("Name: "+fnm+" "+lnm);
-		  fnm.concat(lnm); 
+		  pnm=fnm.concat(lnm); 
 
 		  out.println("<br><br>");
 		  out.println("Gender: " +gen);
@@ -89,23 +105,41 @@ public class Registration extends HttpServlet {
 	    		Class.forName("com.mysql.jdbc.Driver");
 //	    		con =DriverManager.getConnection("jdbc:mqsql://localhost:3306/pat_info","sqluser","password");
 	    		con =DriverManager.getConnection("jdbc:mysql://localhost:3306/ncdjava?useSSL=false", "sqluser", "password");
-	    		PreparedStatement ps=con.prepareStatement("INSERT INTO pat_info" + "(patname,email,gender,dob,adhar,phno,postalcode,score,result) values(?,?,?,?,?,?,?,?,?)");
+	    		PreparedStatement ps=con.prepareStatement("INSERT INTO pat_info" + "(id,patname,email,gender,dob,adhar,phno,postalcode,score,result) values(?,?,?,?,?,?,?,?,?,?)");
 //	    		String INSERT_USERS_SQL = "INSERT INTO patientinfo" +
 //	    	            "  (id, first_name, last_name, gender, aadhaar_uid, phone_no, dob, pincode) VALUES " +
 //	    	            " (?, ?, ?, ?, ?,?,?,?);";
-//	    		ps.setInt(1, 1);
-	    		ps.setString(1,fnm);
-	    		ps.setString(2,emal);
-	    		ps.setString(3,gen);
-	    		ps.setString(4,dob);
-	    		ps.setString(5,aadhaar);
-	    		ps.setString(6,ph);
-	    		ps.setString(7,pin);
-	    		ps.setString(8,sc);
-	    		ps.setString(9,res1);
+	    		
+	    		ps.setString(1,pid);
+	    		ps.setString(2,pnm);
+	    		ps.setString(3,emal);
+	    		ps.setString(4,gen);
+	    		ps.setString(5,dob);
+	    		ps.setString(6,aadhaar);
+	    		ps.setString(7,ph);
+	    		ps.setString(8,pin);
+	    		ps.setString(9,sc);
+	    		ps.setString(10,res1);
 	      
-	      
-    		int rowCount=ps.executeUpdate();
+//	    		mysql> desc pat_info;
+//	    		+------------+--------------+------+-----+---------+-------+
+//	    		| Field      | Type         | Null | Key | Default | Extra |
+//	    		+------------+--------------+------+-----+---------+-------+
+//	    		| id         | varchar(14)  | NO   | PRI | NULL    |       |
+//	    		| patname    | varchar(50)  | NO   |     | NULL    |       |
+//	    		| email      | varchar(100) | NO   |     | NULL    |       |
+//	    		| gender     | varchar(100) | NO   |     | NULL    |       |
+//	    		| dob        | varchar(100) | NO   |     | NULL    |       |
+//	    		| adhar      | varchar(100) | NO   |     | NULL    |       |
+//	    		| phno       | varchar(100) | NO   |     | NULL    |       |
+//	    		| postalcode | varchar(100) | NO   |     | NULL    |       |
+//	    		| score      | varchar(100) | NO   |     | NULL    |       |
+//	    		| result     | varchar(100) | NO   |     | NULL    |       |
+//	    		+------------+--------------+------+-----+---------+-------+
+//	    		10 rows in set (0.00 sec)
+//
+  		
+	    		int rowCount=ps.executeUpdate();
     		if (rowCount>0)
     		{
     			out.print(rowCount+" created indb");
